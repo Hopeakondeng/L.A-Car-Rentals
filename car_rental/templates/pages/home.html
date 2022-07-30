@@ -1,0 +1,161 @@
+{% extends 'base.html' %}
+
+{% load humanize %}
+
+{% block title %}
+Welcome {{user}}
+{% endblock title %}
+
+{% include 'partials/alerts.html' %}
+
+{% block content %}
+
+
+
+
+ <!-- Showcase -->
+ <section id="showcase">
+    <div class="container text-center">
+      <div class="home-search p-5">
+        <div class="overlay p-5">
+          <h1 class="display-4 mb-4">
+            Car Rentals made easy for you.
+          </h1>
+          <p class="lead">Need to book a rental car as soon as possible? No problems. A list of deals of various price ranges to pick up is at your disposal</p>
+          <div class="search">
+            <form action="{% url 'search' %}">
+              <!-- Form Row 1 -->
+              <div class="form-row">
+                <div class="col-md-4 mb-3">
+                  <label class="sr-only">Keywords</label>
+                  <input type="text" name="keywords" class="form-control" placeholder="Keyword (Name, mileage, etc)">
+                </div>
+
+                <div class="col-md-4 mb-3">
+                  <label class="sr-only">City</label>
+                  <select name="city" class="form-control">
+                    <option selected="true" disabled="disabled">City (All)</option>
+                    {% for key, value in city_choices.items %}
+                    <option value=" {{key}} ">{{value}}</option>
+                    {% endfor %}
+                    
+                    <!--c'est dans choices.py  -->
+                    
+                  </select>
+                </div>
+              </div>
+              <!-- Form Row 2 -->
+              <div class="form-row">
+                <div class="col-md-6 mb-3">
+                  <label class="sr-only">Seats</label>
+                  <select name="seats" class="form-control">
+                    <option selected="true" disabled="disabled">Seats (All)</option>
+                    {% for key, value in seats_choices.items %}
+                    <option value=" {{key}} ">{{value}}</option>
+                    {% endfor %}
+                    
+                  </select>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <select name="price" class="form-control" id="type">
+                    <option selected="true" disabled="disabled">Max Price (Any)</option>
+                    {% for key, value in price_choices.items %}
+                    <option value=" {{key}} ">{{value}}</option>
+                    {% endfor %}
+                    
+                  </select>
+                </div>
+              </div>
+              <button class="btn btn-secondary btn-block mt-4" type="submit">Submit form</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+<!-- alerts -->
+{% include "partials/alerts.html" %}
+  <!-- rentals -->
+  <section id="listings" class="py-5">
+    <div class="container">
+      <h3 class="text-center mb-3">Latest Rentals</h3>
+      <div class="row">
+      {% if rentals %}
+        {% for rental in rentals %}
+       
+        <div class="col-md-4 col-lg-4 mb-4">
+          <div class="card listing-preview">
+            <img class="card-img-top" src=" {{rental.photo_main.url}} " height = 280 width=499  alt="" style = "background-color: white">
+            <div class="card-img-overlay">
+              <h2>
+                <span class="badge badge-secondary text-white">FCFA{{rental.price|intcomma}}</span>
+              </h2>
+            </div>
+            <div class="card-body">
+              <div class="listing-heading text-center">
+                <h4 class="text-primary">{{rental.name}}</h4>
+                <p>
+                  <i class="fas fa-map-marker text-secondary" style="font-size: 15px; margin: 3px 5px">{{rental.city}}</i> 
+                </p>
+              </div>
+              <hr style="border-top: 1px solid white;">
+              <div class="row py-2 text-secondary">
+                  <i class="fas fa-car" style="font-size: 20px; margin: 3px 10px"></i>  Seats: {{rental.seats}}</div>
+             
+              <div class="row py-2 text-secondary">
+                <div class="col-10">
+                  <i class="fas fa-road" style="font-size: 20px;"></i> Mileage: {{rental.mileage}}</div>
+              </div>
+              <hr style="border-top: 1px solid white;">
+              <div class="row py-2 text-secondary">
+                <div class="col-6">
+                  <i class="fas fa-user" style="font-size: 20px; margin: 3px 10px"></i>{{rental.driver}}</div>
+              </div>
+              <div class="row text-secondary pb-2">
+                <div class="col-10">
+                  <i class="fas fa-clock" style="font-size: 20px; margin: 3px 10px"></i> {{rental.list_date|timesince}}</div>
+              </div>
+              <hr>
+              <a href="{% url 'rental' rental.id %}" class="btn btn-primary btn-block">More Info</a>
+            </div>
+          </div>
+        </div>
+
+        {% endfor %}
+        {% else %}
+        <div class="col-md-12">
+            <p>No rental available </p>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+
+  <section id="services" class="py-5 bg-secondary text-white">
+    <div class="container">
+      <div class="row text-center">
+        <div class="col-md-4">
+          <i class="fas fa-user fa-4x mr-4"></i>
+          <hr>
+          <h3>Chauffeur Services</h3>
+          <p>We have first rate drivers ready to take you wherever you want to go.</p>
+        </div>
+        <div class="col-md-4">
+          <i class="fas fa-car fa-4x mr-4"></i>
+          <hr>
+          <h3>Car Rentals</h3>
+          <p>The process of finding the vehicle you want on our website will give you pleasure because it doesn’t take much time and effort. Compact, economy, convertible, 7-seater minivan, luxury car, or SUV - the list of available offers in each car rental class is impressive. Plus, reasonable prices and a powerful search engine are other reasons to rent a car with us in Yaounde, Cameroon.</p>
+        </div>
+        <div class="col-md-4">
+          <i class="fas fa-suitcase fa-4x mr-4"></i>
+          <hr>
+          <h3>Renting </h3>
+          <p>Need to book a rental car as soon as possible? No problems. A list of deals of various price ranges to pick up is at your disposal:
+
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+{% endblock content %}

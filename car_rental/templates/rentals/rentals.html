@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% load humanize %}
+
+{% block title %}
+Rentals
+{% endblock title %}
+
+{% block content %}
+
+<section id="bc" class="mt-3">
+    <div class="container">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="{% url 'index'  %}">
+              <i class="fas fa-home"></i> Home</a>
+          </li>
+          <li class="breadcrumb-item active"> Featured Rentals</li>
+        </ol>
+      </nav>
+    </div>
+  </section>
+  <!-- rentals -->
+  <section id="listings" class="py-5">
+    <div class="container">
+      <div class="row">
+      {% if rentals %}
+        {% for rental in rentals %}
+       
+        <div class="col-md-4 col-lg-4 mb-4">
+          <div class="card listing-preview">
+            <img class="card-img-top" src=" {{rental.photo_main.url}} " height = 250  alt="" style = "background-color: white">
+            <div class="card-img-overlay">
+              <h2>
+                <span class="badge badge-secondary text-white">FCFA{{rental.price|intcomma}}</span>
+              </h2>
+            </div>
+            <div class="card-body">
+              <div class="listing-heading text-center">
+                <h4 class="text-primary">{{rental.name}}</h4>
+                <p>
+                  <i class="fas fa-map-marker text-secondary" style="font-size: 15px; margin: 3px 5px">{{rental.city}}</i> 
+                </p>
+              </div>
+              <hr style="border-top: 1px solid white;">
+              <div class="row py-2 text-secondary">
+                  <i class="fas fa-car" style="font-size: 20px; margin: 3px 10px"></i>  Seats: {{rental.seats}}</div>
+             
+              <div class="row py-2 text-secondary">
+                <div class="col-10">
+                  <i class="fas fa-road" style="font-size: 20px;"></i> Mileage: {{rental.mileage}}</div>
+              </div>
+              <hr style="border-top: 1px solid white;">
+              <div class="row py-2 text-secondary">
+                <div class="col-6">
+                  <i class="fas fa-user" style="font-size: 20px; margin: 3px 10px"></i>{{rental.driver}}</div>
+              </div>
+              <div class="row text-secondary pb-2">
+                <div class="col-10">
+                  <i class="fas fa-clock" style="font-size: 20px; margin: 3px 10px"></i> {{rental.list_date|timesince}}</div>
+              </div>
+              <hr>
+              <a href="{% url 'rental' rental.id %}" class="btn btn-primary btn-block">More Info</a>
+            </div>
+          </div>
+        </div>
+
+        {% endfor %}
+        {% else %}
+        <div class="col-md-12">
+            <p>No rental available </p>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+
+
+{% endblock content %}

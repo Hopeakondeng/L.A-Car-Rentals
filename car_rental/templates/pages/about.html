@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}  About us {% endblock %}
+
+{% block content %}
+
+ <!-- Breadcrumb -->
+ <section id="bc" class="mt-3">
+    <div class="container">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="{% url 'index' %}">
+              <i class="fas fa-home"></i> Home</a>
+          </li>
+          <li class="breadcrumb-item active"> About</li>
+        </ol>
+      </nav>
+    </div>
+  </section>
+
+  <section id="about" class="py-4">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8">
+          <h2>We Offer The Best Rental Deals</h2>
+          <p class="lead">We do our very best to offer the most comfortable and affordable rides to suit the needs of our diverse clientele </p>
+          <img src="  {% static 'img/about.jpg' %} " alt="">
+          <p class="mt-4">The process of finding the vehicle you want on our website will give you pleasure because it doesn’t take much time and effort. Compact, economy, convertible, 7-seater minivan, luxury car, or SUV - the list of available offers in each car rental class is impressive. Plus, reasonable prices and a powerful search engine are other reasons to rent a car with us in Yaounde, Cameroon.
+            Need to book a rental car as soon as possible? No problems. A list of deals of various price ranges to pick up is at your disposal</p>
+        </div>
+        <div class="col-md-4">
+            {% if mvp_drivers %}
+            {% for driver in mvp_drivers %}
+          <div class="card">
+            <img class="card-img-top" src=" {{ driver.photo.url }}  " alt="Seller of the month">
+            <div class="card-body">
+              <h5 class="card-title"  style="color:beige; background-color:red">Driver Of The Month</h5>
+              <h6 class="text-secondary" style="color:white">{{ driver.name }}</h6>
+              <p class="card-text" style="color:white">{{ driver.description }}
+              </p>
+            </div>
+          </div>
+      {% endfor %}
+      {% endif %}
+          
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Work -->
+  <section id="work" class="bg-dark text-white text-center">
+    <h2 class="display-4">We Work For You</h2>
+    <h4>Our Drivers are fully at your disposal, and they will do their best to make sure you have a pleasant experience</h4>
+    <hr>
+    <a href="{%url 'rentals'%}" class="btn btn-secondary text-white btn-lg">View Our Featured Rentals</a>
+  </section>
+
+  <!-- Team -->
+  <section id="team" class="py-5">
+    <div class="container">
+      <h2 class="text-center">Our Drivers</h2>
+      <div class="row text-center">
+      {% if drivers %}
+      {% for driver in drivers %}
+        <div class="col-md-4">
+          <img src=" {{driver.photo.url }} " alt="" class="rounded-circle mb-3">
+          <h4> {{ driver.name }} </h4>
+          <p class="text-success">
+            <i class="fas fa-award text-success mb-3"></i> Driver</p>
+          <hr>
+          <p>
+            <i class="fas fa-phone"></i> {{ driver.phone }}</p>
+          <p>
+            <i class="fas fa-envelope-open"></i>  {{ driver.email }}</p>
+        </div>
+      {% endfor %}
+      {% else %}
+      <div class="col-md-12">
+        <p>No drivers available </p>
+    </div>
+    {% endif %}
+        
+      </div>
+    </div>
+  </section>
+
+{% endblock content %}
